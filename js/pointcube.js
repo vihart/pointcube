@@ -70,7 +70,8 @@ everything.add( plane );
 
   var particleSystem = new THREE.PointCloud(cubicles, partMat);
 
-  particleSystem.geometry.colors = colors;
+//if colors:
+  // particleSystem.geometry.colors = colors;
 
   particleSystem.position.set(-cubeWidth/2,1,-cubeWidth/2);
   particleSystem.scale.set(cubeWidth, cubeWidth, cubeWidth);
