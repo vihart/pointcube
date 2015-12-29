@@ -125,7 +125,7 @@ THREE.VREffect = function ( renderer, done ) {
 		cameraLeft.translateX( leftEyeTranslation.x );
 
 		// array for whether we're rendering in mono or stereo
-		var eyeArray = [leftEyeTranslation.x, rightEyeTranslation.x];
+		var eyeArray = [rightEyeTranslation.x, leftEyeTranslation.x];
 		cameraRight.translateX( eyeArray[monoToggle] ); //what we changed to make it mono if monoToggle is 1
 
 		// render left eye
