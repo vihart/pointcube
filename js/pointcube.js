@@ -33,20 +33,32 @@ everything.add( plane );
 
 //make particles
   var cubicles = new THREE.Geometry();
-  var n = 20; //width of cube of particles
+  var n = 10; //width of cube of particles
   var partCount = n*n*n;
   var cubeWidth = 1.0;
 
   for (var p = 0; p<partCount; p++){
     var part = new THREE.Vector3( //place particles in space particles yeah
-          (p % n) / ( n - 1), //x position between 0 and 1 over and over
-          (Math.floor(p/n) % n) / (n - 1),
-          Math.floor(p/(n*n)) / (n - 1)
+          cubeWidth * (p % n) / ( n - 1), //x position between 0 and 1 over and over
+          cubeWidth * (Math.floor(p/n) % n) / (n - 1),
+          cubeWidth * Math.floor(p/(n*n)) / (n - 1)
       );
     cubicles.vertices.push(part);
   }
 
-  var partMat = new THREE.PointCloudMaterial({size:0.01});
+  var colors = [];
+  for( var i = 0; i < partCount; i++ ) {
+      // random color
+      colors[i] = new THREE.Color();
+      colors[i].setHSL( i/partCount, 1.0, 0.5 );
+  }
+
+  var partMat = new THREE.PointCloudMaterial( {
+    size: 0.01,
+    transparent: true,
+    opacity: 1,
+    vertexColors: THREE.VertexColors
+} );
   // var partMat = new THREE.PointCloudMaterial({
   //     color: 0xffffff,
   //     size: 1.5*c,
@@ -56,9 +68,11 @@ everything.add( plane );
   //     });
   var particleSystem = new THREE.PointCloud(cubicles, partMat);
 
+  particleSystem.geometry.colors = colors;
+
   particleSystem.position.set(-cubeWidth/2,1,-cubeWidth/2);
 
-  // particleSystem.sortParticles = true;
+  particleSystem.sortParticles = false;
   particleSystem.frustumCulled = false;
   everything.add(particleSystem);
 
