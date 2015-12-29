@@ -65,7 +65,7 @@ everything.add( plane );
     //do the following if puppies:
     map: THREE.ImageUtils.loadTexture("media/puppy.png"),
     blending: THREE.AdditiveBlending,
-    transparent: false
+    transparent: true
   } );
 
   var particleSystem = new THREE.PointCloud(cubicles, partMat);
