@@ -24,7 +24,7 @@ effect.setSize( window.innerWidth, window.innerHeight );
 
 var everything = new THREE.Object3D();
 
-//snowground
+//greyground
 var planeGeometry = new THREE.PlaneGeometry( 100, 100, 50, 50 );
 var planeMaterial = new THREE.MeshPhongMaterial( {side: THREE.DoubleSide, wireframe:false} );
 var plane = new THREE.Mesh( planeGeometry, planeMaterial );
@@ -46,28 +46,28 @@ everything.add( plane );
     cubicles.vertices.push(part);
   }
 
-  var colors = [];
-  for( var i = 0; i < partCount; i++ ) {
-      // random color
-      colors[i] = new THREE.Color();
-      // colors[i].setHSL( i/partCount, 1.0, 0.5 ); //hue by number
-      // colors[i].setRGB(cubicles.vertices[i].x, cubicles.vertices[i].y, cubicles.vertices[i].z); // color cube rgb
-      colors[i].setHSL(1, 1, i%2);
-  }
+  //colors:
+  // var colors = [];
+  // for( var i = 0; i < partCount; i++ ) {
+  //     // random color
+  //     colors[i] = new THREE.Color();
+  //     // colors[i].setHSL( i/partCount, 1.0, 0.5 ); //hue by number
+  //     // colors[i].setRGB(cubicles.vertices[i].x, cubicles.vertices[i].y, cubicles.vertices[i].z); // color cube rgb
+  //     colors[i].setHSL(1, 1, i%2); //checkerboard
+  // }
 
   var partMat = new THREE.PointCloudMaterial( {
     size: 0.01,
-    transparent: true,
-    opacity: 1,
-    vertexColors: THREE.VertexColors
-} );
-  // var partMat = new THREE.PointCloudMaterial({
-  //     color: 0xffffff,
-  //     size: 1.5*c,
-  //     map: THREE.ImageUtils.loadTexture("media/starflake.png"),
-  //     blending: THREE.AdditiveBlending,
-  //     transparent: true
-  //     });
+    //do the following if colors:
+    // transparent: true,
+    // opacity: 1,
+    // vertexColors: THREE.VertexColors
+    //do the following if puppies:
+    map: THREE.ImageUtils.loadTexture("media/puppy.png"),
+    blending: THREE.AdditiveBlending,
+    transparent: true
+  } );
+
   var particleSystem = new THREE.PointCloud(cubicles, partMat);
 
   particleSystem.geometry.colors = colors;
