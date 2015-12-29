@@ -72,7 +72,7 @@ everything.add( plane );
 
   particleSystem.position.set(-cubeWidth/2,1,-cubeWidth/2);
 
-  particleSystem.sortParticles = false;
+  // particleSystem.sortParticles = false;
   particleSystem.frustumCulled = false;
   everything.add(particleSystem);
 
