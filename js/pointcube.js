@@ -57,7 +57,7 @@ everything.add( plane );
   // }
 
   var partMat = new THREE.PointCloudMaterial( {
-    size: 0.01,
+    size: 0.02,
     //do the following if colors:
     // transparent: true,
     // opacity: 1,
@@ -65,13 +65,15 @@ everything.add( plane );
     //do the following if puppies:
     map: THREE.ImageUtils.loadTexture("media/puppy.png"),
     blending: THREE.AdditiveBlending,
-    transparent: true
+    transparent: false
   } );
 
   var particleSystem = new THREE.PointCloud(cubicles, partMat);
 
 //if colors:
   // particleSystem.geometry.colors = colors;
+  //if puppies:
+  particleSystem.sortParticles = true;
 
   particleSystem.position.set(-cubeWidth/2,1,-cubeWidth/2);
   particleSystem.scale.set(cubeWidth, cubeWidth, cubeWidth);
