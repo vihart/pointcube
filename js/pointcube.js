@@ -33,15 +33,15 @@ everything.add( plane );
 
 //make particles
   var cubicles = new THREE.Geometry();
-  var n = 10; //width of cube of particles
+  var n = 21; //width of cube of particles
   var partCount = n*n*n;
   var cubeWidth = 1.0;
 
   for (var p = 0; p<partCount; p++){
     var part = new THREE.Vector3( //place particles in space particles yeah
-          cubeWidth * (p % n) / ( n - 1), //x position between 0 and 1 over and over
-          cubeWidth * (Math.floor(p/n) % n) / (n - 1),
-          cubeWidth * Math.floor(p/(n*n)) / (n - 1)
+          (p % n) / ( n - 1), //x position between 0 and 1 over and over
+          (Math.floor(p/n) % n) / (n - 1),
+          Math.floor(p/(n*n)) / (n - 1)
       );
     cubicles.vertices.push(part);
   }
@@ -50,7 +50,9 @@ everything.add( plane );
   for( var i = 0; i < partCount; i++ ) {
       // random color
       colors[i] = new THREE.Color();
-      colors[i].setHSL( i/partCount, 1.0, 0.5 );
+      // colors[i].setHSL( i/partCount, 1.0, 0.5 ); //hue by number
+      // colors[i].setRGB(cubicles.vertices[i].x, cubicles.vertices[i].y, cubicles.vertices[i].z); // color cube rgb
+      colors[i].setHSL(1, 1, i%2);
   }
 
   var partMat = new THREE.PointCloudMaterial( {
@@ -71,6 +73,7 @@ everything.add( plane );
   particleSystem.geometry.colors = colors;
 
   particleSystem.position.set(-cubeWidth/2,1,-cubeWidth/2);
+  particleSystem.scale.set(cubeWidth, cubeWidth, cubeWidth);
 
   // particleSystem.sortParticles = false;
   particleSystem.frustumCulled = false;
@@ -84,7 +87,7 @@ everything.add( plane );
 
   scene.add(everything);
 
-  camera.position.set(0, 1 + cubeWidth/2, 0);
+  camera.position.set(0, (1 + cubeWidth/2), 0);
 
 /*
 Request animation frame loop function
@@ -127,6 +130,8 @@ function onkey(event) {
     controls.resetSensor(); //zero rotation
   } else if (event.keyCode == 70 || event.keyCode == 13) { //f or enter
     effect.setFullScreen(true) //fullscreen
+  } else if (event.keyCode == 77){ //m to toggle mono / stereo
+    monoToggle = 1 - monoToggle;
   }
 };
 window.addEventListener("keydown", onkey, true);
