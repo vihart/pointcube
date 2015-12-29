@@ -1,3 +1,7 @@
+var phi = 1.618033988749894848;
+var pi = 3.14159265359;
+var tau = 6.28318530717958;
+
 // Setup three.js WebGL renderer
 var renderer = new THREE.WebGLRenderer( { antialias: true } );
 
@@ -8,7 +12,7 @@ document.body.appendChild( renderer.domElement );
 var scene = new THREE.Scene();
 
 //Create a three.js camera
-var camera = new THREE.PerspectiveCamera( 110, window.innerWidth / window.innerHeight, 2, 10000 );
+var camera = new THREE.PerspectiveCamera( 110, window.innerWidth / window.innerHeight, 0.01, 10000 );
 scene.add(camera);
 
 //Apply VR headset positional data to camera.
@@ -18,14 +22,53 @@ var controls = new THREE.VRControls( camera );
 var effect = new THREE.VREffect( renderer );
 effect.setSize( window.innerWidth, window.innerHeight );
 
+var everything = new THREE.Object3D();
 
-/************* TODO: Generate Your VR Scene Below *********************/
+//snowground
+var planeGeometry = new THREE.PlaneGeometry( 100, 100, 50, 50 );
+var planeMaterial = new THREE.MeshPhongMaterial( {side: THREE.DoubleSide, wireframe:false} );
+var plane = new THREE.Mesh( planeGeometry, planeMaterial );
+plane.rotation.x = -pi/2;
+everything.add( plane );
 
+//make particles
+  var cubicles = new THREE.Geometry();
+  var n = 20; //width of cube of particles
+  var partCount = n*n*n;
+  var cubeWidth = 1.0;
 
-/*
-TODO: Create, position, and add 3d objects here
-*/
+  for (var p = 0; p<partCount; p++){
+    var part = new THREE.Vector3( //place particles in space particles yeah
+          (p % n) / ( n - 1), //x position between 0 and 1 over and over
+          (Math.floor(p/n) % n) / (n - 1),
+          Math.floor(p/(n*n)) / (n - 1)
+      );
+    cubicles.vertices.push(part);
+  }
 
+  var partMat = new THREE.PointCloudMaterial({size:0.01});
+  // var partMat = new THREE.PointCloudMaterial({
+  //     color: 0xffffff,
+  //     size: 1.5*c,
+  //     map: THREE.ImageUtils.loadTexture("media/starflake.png"),
+  //     blending: THREE.AdditiveBlending,
+  //     transparent: true
+  //     });
+  var particleSystem = new THREE.PointCloud(cubicles, partMat);
+
+  particleSystem.position.set(-cubeWidth/2,1,-cubeWidth/2);
+
+  // particleSystem.sortParticles = true;
+  particleSystem.frustumCulled = false;
+  everything.add(particleSystem);
+
+  //lights    
+  var light = new THREE.PointLight( 0xffffff, 0.7, 100);
+  light.position.set( -10,25,-2);
+  light.castShadow = true;
+  everything.add( light );
+
+  scene.add(everything);
 
 /*
 Request animation frame loop function
