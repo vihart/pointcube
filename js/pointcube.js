@@ -70,6 +70,8 @@ everything.add( plane );
 
   scene.add(everything);
 
+  camera.position.set(0, 1 + cubeWidth/2, 0);
+
 /*
 Request animation frame loop function
 */
